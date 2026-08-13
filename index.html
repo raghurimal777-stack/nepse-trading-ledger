@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NEPSE Trading Ledger V2.4</title>
+<title>NEPSE Trading Ledger V2.4 Fixed</title>
 
 <style>
 :root{
@@ -108,9 +108,7 @@ header{
   opacity:1
 }
 
-.tab:hover{
-  background:#f3f4f6
-}
+.tab:hover{background:#f3f4f6}
 
 .tab.active{
   background:var(--accent);
@@ -152,9 +150,7 @@ textarea{
   resize:vertical
 }
 
-.full{
-  grid-column:1/-1
-}
+.full{grid-column:1/-1}
 
 button{
   font:inherit;
@@ -205,9 +201,7 @@ th{
 
 td.num{text-align:right}
 
-.tablewrap{
-  overflow:auto
-}
+.tablewrap{overflow:auto}
 
 .note{
   padding:12px;
@@ -232,29 +226,41 @@ footer{
   font-size:12px
 }
 
-@media(max-width:900px){
-  .grid{
-    grid-template-columns:repeat(2,1fr)
-  }
+.badge{
+  display:inline-block;
+  padding:3px 7px;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:800
+}
 
-  .formgrid{
-    grid-template-columns:repeat(2,1fr)
-  }
+.badge-buy{
+  background:#dcfce7;
+  color:#166534
+}
+
+.badge-sell{
+  background:#fee2e2;
+  color:#991b1b
+}
+
+.badge-tax{
+  background:#fff7ed;
+  color:#9a3412
+}
+
+@media(max-width:900px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .formgrid{grid-template-columns:repeat(2,1fr)}
 }
 
 @media(max-width:600px){
-  .grid,.formgrid{
-    grid-template-columns:1fr
-  }
-
+  .grid,.formgrid{grid-template-columns:1fr}
   .header{
     align-items:flex-start;
     flex-direction:column
   }
-
-  .value{
-    font-size:22px
-  }
+  .value{font-size:22px}
 }
 </style>
 </head>
@@ -262,186 +268,194 @@ footer{
 <body>
 
 <header>
-  <div class="header">
+<div class="header">
 
-    <div>
-      <div class="brand">📊 NEPSE Trading Ledger</div>
-      <div class="sub">Version 2.4 • Cloud database + fee calculator</div>
-    </div>
+<div>
+<div class="brand">📊 NEPSE Trading Ledger</div>
+<div class="sub">Version 2.4 Fixed • Cloud database + Nepal fee & CGT calculator</div>
+</div>
 
-    <button class="secondary" onclick="exportData()">
-      Export Backup
-    </button>
+<button class="secondary" onclick="exportData()">Export Backup</button>
 
-  </div>
+</div>
 </header>
 
 <main class="container">
 
-<!-- TOP SUMMARY -->
+<!-- ================= DASHBOARD CARDS ================= -->
 
 <div class="grid">
 
-  <div class="card">
-    <div class="label">Portfolio Cost</div>
-    <div class="value" id="cost">Rs. 0</div>
-  </div>
+<div class="card">
+<div class="label">Portfolio Cost</div>
+<div class="value" id="cost">Rs. 0</div>
+</div>
 
-  <div class="card">
-    <div class="label">Market Value</div>
-    <div class="value" id="market">Rs. 0</div>
-  </div>
+<div class="card">
+<div class="label">Market Value</div>
+<div class="value" id="market">Rs. 0</div>
+</div>
 
-  <div class="card">
-    <div class="label">Unrealized P/L</div>
-    <div class="value" id="unrealized">Rs. 0</div>
-  </div>
+<div class="card">
+<div class="label">Unrealized P/L</div>
+<div class="value" id="unrealized">Rs. 0</div>
+</div>
 
-  <div class="card">
-    <div class="label">Realized P/L</div>
-    <div class="value" id="realized">Rs. 0</div>
-  </div>
+<div class="card">
+<div class="label">Realized P/L</div>
+<div class="value" id="realized">Rs. 0</div>
+</div>
 
 </div>
 
-<!-- TABS -->
+
+<!-- ================= TABS ================= -->
 
 <div class="tabs">
 
-  <button class="tab active" data-tab="dashboard">
-    Dashboard
-  </button>
+<button class="tab active" data-tab="dashboard">
+Dashboard
+</button>
 
-  <button class="tab" data-tab="trade">
-    Add Trade
-  </button>
+<button class="tab" data-tab="trade">
+Add Trade
+</button>
 
-  <button class="tab" data-tab="portfolio">
-    Portfolio
-  </button>
+<button class="tab" data-tab="portfolio">
+Portfolio
+</button>
 
-  <button class="tab" data-tab="history">
-    Trade History
-  </button>
+<button class="tab" data-tab="history">
+Trade History
+</button>
 
-  <button class="tab" data-tab="journal">
-    Journal
-  </button>
+<button class="tab" data-tab="journal">
+Journal
+</button>
 
 </div>
 
-<!-- DASHBOARD -->
+
+<!-- ================= DASHBOARD ================= -->
 
 <section id="dashboard" class="section active">
 
-<h3 style="margin:0 0 10px">Trading Statistics</h3>
+<h3 style="margin:0 0 10px">
+Trading Statistics
+</h3>
 
 <div class="grid">
 
-  <div class="card">
-    <div class="label">Total Trades</div>
-    <div class="value" id="trades">0</div>
-  </div>
+<div class="card">
+<div class="label">Total Trades</div>
+<div class="value" id="trades">0</div>
+</div>
 
-  <div class="card">
-    <div class="label">Winning Sells</div>
-    <div class="value good" id="wins">0</div>
-  </div>
+<div class="card">
+<div class="label">Winning Sells</div>
+<div class="value good" id="wins">0</div>
+</div>
 
-  <div class="card">
-    <div class="label">Losing Sells</div>
-    <div class="value bad" id="losses">0</div>
-  </div>
+<div class="card">
+<div class="label">Losing Sells</div>
+<div class="value bad" id="losses">0</div>
+</div>
 
-  <div class="card">
-    <div class="label">Win Rate</div>
-    <div class="value" id="winrate">0%</div>
-  </div>
+<div class="card">
+<div class="label">Win Rate</div>
+<div class="value" id="winrate">0%</div>
+</div>
 
 </div>
 
 
 <h3 style="margin:22px 0 10px">
-  Portfolio Performance
+Portfolio Performance
 </h3>
 
 <div class="grid">
 
-  <div class="card">
-    <div class="label">Total P/L</div>
-    <div class="value" id="totalPL">Rs. 0</div>
-  </div>
+<div class="card">
+<div class="label">Total P/L</div>
+<div class="value" id="totalPL">Rs. 0</div>
+</div>
 
-  <div class="card">
-    <div class="label">Overall Return</div>
-    <div class="value" id="overallReturn">0%</div>
-  </div>
+<div class="card">
+<div class="label">Overall Return</div>
+<div class="value" id="overallReturn">0%</div>
+</div>
 
-  <div class="card">
-    <div class="label">Current Holdings</div>
-    <div class="value" id="holdingCount">0</div>
-  </div>
+<div class="card">
+<div class="label">Current Holdings</div>
+<div class="value" id="holdingCount">0</div>
+</div>
 
-  <div class="card">
-    <div class="label">Current Investment</div>
-    <div class="value" id="totalInvestment">Rs. 0</div>
-  </div>
+<div class="card">
+<div class="label">Current Investment</div>
+<div class="value" id="totalInvestment">Rs. 0</div>
+</div>
 
 </div>
 
 
 <h3 style="margin:22px 0 10px">
-  Order Statistics
+Order Statistics
 </h3>
 
 <div class="grid">
 
-  <div class="card">
-    <div class="label">BUY Trades</div>
-    <div class="value" id="buyTrades">0</div>
-  </div>
+<div class="card">
+<div class="label">BUY Trades</div>
+<div class="value" id="buyTrades">0</div>
+</div>
 
-  <div class="card">
-    <div class="label">SELL Trades</div>
-    <div class="value" id="sellTrades">0</div>
-  </div>
+<div class="card">
+<div class="label">SELL Trades</div>
+<div class="value" id="sellTrades">0</div>
+</div>
 
-  <div class="card">
-    <div class="label">Winning Sells</div>
-    <div class="value good" id="dashWins">0</div>
-  </div>
+<div class="card">
+<div class="label">Winning Sells</div>
+<div class="value good" id="dashWins">0</div>
+</div>
 
-  <div class="card">
-    <div class="label">Losing Sells</div>
-    <div class="value bad" id="dashLosses">0</div>
-  </div>
+<div class="card">
+<div class="label">Losing Sells</div>
+<div class="value bad" id="dashLosses">0</div>
+</div>
 
 </div>
 
 
 <div class="card" style="margin-top:14px">
 
-  <h3>How to use</h3>
+<h3>How to use</h3>
 
-  <p>
-    1. Add BUY transactions.
-    2. Add SELL transactions.
-    3. Enter current market price in Portfolio to see unrealized P/L.
-    4. Use Journal for Elliott Wave / SMC / ICT setup notes.
-  </p>
+<p>
+1. Add BUY transactions.
+2. Add SELL transactions.
+3. Enter current market price in Portfolio to see unrealized P/L.
+4. Use Journal for Elliott Wave / SMC / ICT setup notes.
+</p>
 
-  <div class="note">
-    Trades are stored securely in your Supabase cloud database.
-    Current market prices are saved in this browser for now;
-    live NEPSE prices are not fetched automatically yet.
-  </div>
+<div class="note">
+
+<b>Fee / Tax logic in V2.4 Fixed</b><br><br>
+
+• Brokerage: based on turnover slab<br>
+• SEBON transaction fee: 0.015%<br>
+• DP charge: Rs. 25 on BUY and Rs. 25 on SELL<br>
+• CGT: SELL only and only on capital gain<br>
+• FY 2083/84: ≤365 days = 10%, >365 days = 7.5%
+
+</div>
 
 </div>
 
 </section>
 
 
-<!-- ADD TRADE -->
+<!-- ================= ADD TRADE ================= -->
 
 <section id="trade" class="section">
 
@@ -453,130 +467,116 @@ footer{
 
 <div class="formgrid">
 
-  <div class="field">
-    <label>Date</label>
-    <input id="date" type="date" required>
-  </div>
+<div class="field">
+<label>Date</label>
+<input id="date" type="date" required>
+</div>
 
-  <div class="field">
-    <label>Symbol</label>
-    <input id="symbol" placeholder="HLI" required>
-  </div>
+<div class="field">
+<label>Symbol</label>
+<input id="symbol" placeholder="HLI" required>
+</div>
 
-  <div class="field">
-    <label>Side</label>
-    <select id="side">
-      <option>BUY</option>
-      <option>SELL</option>
-    </select>
-  </div>
+<div class="field">
+<label>Side</label>
 
-  <div class="field">
-    <label>Quantity</label>
-    <input id="qty" type="number" min="1" step="1" required>
-  </div>
+<select id="side">
 
-  <div class="field">
-    <label>Price (Rs.)</label>
-    <input id="price" type="number" min="0" step="0.01" required>
-  </div>
+<option>BUY</option>
+<option>SELL</option>
 
-  <div class="field">
-    <label>Fee Mode</label>
-
-    <select id="feeMode">
-      <option value="auto">Auto-calculate</option>
-      <option value="manual">Manual</option>
-    </select>
-
-  </div>
-
-  <div class="field">
-    <label>Brokerage (Rs.)</label>
-    <input
-      id="brokerage"
-      type="number"
-      min="0"
-      step="0.01"
-      value="0"
-    >
-  </div>
-
-  <div class="field">
-    <label>SEBON + Other Fee (Rs.)</label>
-
-    <input
-      id="fee"
-      type="number"
-      min="0"
-      step="0.01"
-      value="0"
-    >
-  </div>
-
-
-  <!-- FIXED: BUY AND SELL BOTH -->
-
-  <div class="field">
-
-    <label>DP Charge (BUY / SELL)</label>
-
-    <select id="dpCharge">
-
-      <option value="25" selected>
-        Rs. 25
-      </option>
-
-      <option value="0">
-        Rs. 0
-      </option>
-
-    </select>
-
-  </div>
-
-
-  <div class="field full">
-
-    <div
-      class="note"
-      id="feePreview"
-      style="margin:0"
-    >
-      Enter quantity and price to calculate estimated brokerage,
-      SEBON fee and DP charge.
-    </div>
-
-  </div>
-
-
-  <div class="field">
-
-    <label>Note</label>
-
-    <input
-      id="note"
-      placeholder="Optional"
-    >
-
-  </div>
+</select>
 
 </div>
 
+<div class="field">
+<label>Quantity</label>
+<input id="qty" type="number" min="1" step="1" required>
+</div>
+
+<div class="field">
+<label>Price (Rs.)</label>
+<input id="price" type="number" min="0" step="0.01" required>
+</div>
+
+<div class="field">
+<label>Fee Mode</label>
+
+<select id="feeMode">
+
+<option value="auto">
+Auto-calculate
+</option>
+
+<option value="manual">
+Manual
+</option>
+
+</select>
+
+</div>
+
+<div class="field">
+<label>Brokerage (Rs.)</label>
+<input id="brokerage" type="number" min="0" step="0.01" value="0">
+</div>
+
+<div class="field">
+<label>SEBON + DP Fee (Rs.)</label>
+<input id="fee" type="number" min="0" step="0.01" value="25">
+</div>
+
+<div class="field">
+<label>DP Charge</label>
+
+<select id="dpCharge">
+
+<option value="25">
+Rs. 25
+</option>
+
+<option value="0">
+Rs. 0
+</option>
+
+</select>
+
+</div>
+
+<div class="field full">
+
+<div class="note" id="feePreview" style="margin:0">
+
+Enter quantity and price to calculate brokerage, SEBON fee and DP charge.
+
+</div>
+
+</div>
+
+<div class="field">
+
+<label>Note</label>
+
+<input id="note" placeholder="Optional">
+
+</div>
+
+</div>
 
 <div class="actions">
 
-  <button>
-    Add Trade
-  </button>
+<button>
+Add Trade
+</button>
 
-  <button
-    type="button"
-    class="secondary"
-    onclick="clearTradeForm()"
-  >
-    Clear
-  </button>
+<button
+type="button"
+class="secondary"
+onclick="clearTradeForm()">
+
+Clear
+
+</button>
 
 </div>
 
@@ -587,7 +587,7 @@ footer{
 </section>
 
 
-<!-- PORTFOLIO -->
+<!-- ================= PORTFOLIO ================= -->
 
 <section id="portfolio" class="section">
 
@@ -596,7 +596,7 @@ footer{
 <h2>Portfolio</h2>
 
 <p class="sub">
-  Enter/update current market price for each holding.
+Enter/update current market price for each holding.
 </p>
 
 <div class="tablewrap">
@@ -606,15 +606,17 @@ footer{
 <thead>
 
 <tr>
-  <th>Symbol</th>
-  <th>Qty</th>
-  <th>Avg Cost</th>
-  <th>Cost</th>
-  <th>Market Price</th>
-  <th>Market Value</th>
-  <th>P/L</th>
-  <th>Return</th>
-  <th></th>
+
+<th>Symbol</th>
+<th>Qty</th>
+<th>Avg Cost</th>
+<th>Cost</th>
+<th>Market Price</th>
+<th>Market Value</th>
+<th>P/L</th>
+<th>Return</th>
+<th></th>
+
 </tr>
 
 </thead>
@@ -630,33 +632,25 @@ footer{
 </section>
 
 
-<!-- TRADE HISTORY -->
+<!-- ================= HISTORY ================= -->
 
 <section id="history" class="section">
 
 <div class="card">
 
-<div
-  style="
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:center;
-  flex-wrap:wrap
-  "
->
+<div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
 
 <h2>Trade History</h2>
 
 <button
-  class="danger"
-  onclick="clearAll()"
->
-  Delete All Data
+class="danger"
+onclick="clearAll()">
+
+Delete All Data
+
 </button>
 
 </div>
-
 
 <div class="tablewrap">
 
@@ -665,15 +659,19 @@ footer{
 <thead>
 
 <tr>
-  <th>Date</th>
-  <th>Symbol</th>
-  <th>Side</th>
-  <th>Qty</th>
-  <th>Price</th>
-  <th>Gross</th>
-  <th>Charges</th>
-  <th>Note</th>
-  <th></th>
+
+<th>Date</th>
+<th>Symbol</th>
+<th>Side</th>
+<th>Qty</th>
+<th>Price</th>
+<th>Gross</th>
+<th>Charges</th>
+<th>CGT</th>
+<th>Net P/L</th>
+<th>Note</th>
+<th></th>
+
 </tr>
 
 </thead>
@@ -689,7 +687,7 @@ footer{
 </section>
 
 
-<!-- JOURNAL -->
+<!-- ================= JOURNAL ================= -->
 
 <section id="journal" class="section">
 
@@ -698,113 +696,84 @@ footer{
 <h2>Trading Journal</h2>
 
 <div class="note">
-  Journal entries are stored securely in your Supabase cloud database.
-</div>
 
+Journal entries are stored securely in your Supabase cloud database.
+
+</div>
 
 <form id="journalForm">
 
 <div class="formgrid">
 
-  <div class="field">
-    <label>Date</label>
-    <input id="jdate" type="date" required>
-  </div>
+<div class="field">
+<label>Date</label>
+<input id="jdate" type="date" required>
+</div>
 
-  <div class="field">
-    <label>Symbol</label>
-    <input id="jsymbol" placeholder="HLI" required>
-  </div>
+<div class="field">
+<label>Symbol</label>
+<input id="jsymbol" placeholder="HLI" required>
+</div>
 
-  <div class="field">
-    <label>Direction</label>
+<div class="field">
+<label>Direction</label>
 
-    <select id="jdirection">
-      <option>LONG</option>
-      <option>SHORT</option>
-    </select>
+<select id="jdirection">
 
-  </div>
+<option>LONG</option>
+<option>SHORT</option>
 
-  <div class="field">
-
-    <label>Strategy</label>
-
-    <input
-      id="strategy"
-      placeholder="Elliott Wave / SMC / ICT"
-    >
-
-  </div>
-
-
-  <div class="field full">
-
-    <label>Setup / Reason</label>
-
-    <textarea
-      id="setup"
-      placeholder="Liquidity sweep, demand zone, BOS, wave count..."
-    ></textarea>
-
-  </div>
-
-
-  <div class="field">
-
-    <label>Entry</label>
-
-    <input
-      id="jentry"
-      type="number"
-      step="0.01"
-    >
-
-  </div>
-
-
-  <div class="field">
-
-    <label>Stop Loss</label>
-
-    <input
-      id="sl"
-      type="number"
-      step="0.01"
-    >
-
-  </div>
-
-
-  <div class="field">
-
-    <label>Target</label>
-
-    <input
-      id="target"
-      type="number"
-      step="0.01"
-    >
-
-  </div>
-
-
-  <div class="field">
-
-    <label>Lesson / Mistake</label>
-
-    <input id="lesson">
-
-  </div>
+</select>
 
 </div>
 
+<div class="field">
+<label>Strategy</label>
+
+<input
+id="strategy"
+placeholder="Elliott Wave / SMC / ICT">
+
+</div>
+
+<div class="field full">
+
+<label>Setup / Reason</label>
+
+<textarea
+id="setup"
+placeholder="Liquidity sweep, demand zone, BOS, wave count...">
+</textarea>
+
+</div>
+
+<div class="field">
+<label>Entry</label>
+<input id="jentry" type="number" step="0.01">
+</div>
+
+<div class="field">
+<label>Stop Loss</label>
+<input id="sl" type="number" step="0.01">
+</div>
+
+<div class="field">
+<label>Target</label>
+<input id="target" type="number" step="0.01">
+</div>
+
+<div class="field">
+<label>Lesson / Mistake</label>
+<input id="lesson">
+</div>
+
+</div>
 
 <div class="actions">
 
-  <button>
-    Save Journal
-  </button>
+<button>
+Save Journal
+</button>
 
 </div>
 
@@ -813,10 +782,7 @@ footer{
 </div>
 
 
-<div
-  class="card"
-  style="margin-top:14px"
->
+<div class="card" style="margin-top:14px">
 
 <h2>Journal Entries</h2>
 
@@ -830,9 +796,10 @@ footer{
 
 
 <footer>
-  NEPSE Trading Ledger V2.4 • Educational/personal record-keeping tool.
-  Fee presets are estimates and should be checked against your broker
-  contract/contract note.
+
+NEPSE Trading Ledger V2.4 Fixed • Educational/personal record-keeping tool.
+Fee presets are estimates and should always be checked against your broker contract note.
+
 </footer>
 
 
@@ -840,2133 +807,2186 @@ footer{
 
 <script>
 
+/* =========================================================
+   SUPABASE
+========================================================= */
+
 const SUPABASE_URL =
-  "https://odyyuimzboydujdflgmk.supabase.co";
+"https://odyyuimzboydujdflgmk.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_Vq5llgyUTEaBax6FMJgC9g__ail8nvb";
+"sb_publishable_Vq5llgyUTEaBax6FMJgC9g__ail8nvb";
 
 const sb =
-  supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
+
+/* =========================================================
+   STATE
+========================================================= */
 
 let state = {
-  trades: [],
-  journals: [],
-  prices: {}
+
+  trades:[],
+  journals:[],
+  prices:{}
+
 };
 
 let currentUser = null;
 
 
-const n = x =>
-  Number(x || 0);
+/* =========================================================
+   HELPERS
+========================================================= */
+
+const n =
+x => Number(x || 0);
+
+const money =
+x =>
+'Rs. ' +
+n(x).toLocaleString(
+  'en-IN',
+  {maximumFractionDigits:2}
+);
+
+const esc =
+s =>
+String(s || '').replace(
+  /[&<>"']/g,
+  m =>
+  ({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#039;'
+  }[m])
+);
 
 
-const money = x =>
-  'Rs. ' +
-  n(x).toLocaleString(
-    'en-IN',
-    {
-      maximumFractionDigits:2
-    }
-  );
-
+/* =========================================================
+   LOCAL PRICE DATA
+========================================================= */
 
 try{
 
-  state.prices =
-    JSON.parse(
-      localStorage.getItem(
-        'nepsePricesV21'
-      ) || '{}'
-    );
+state.prices =
+JSON.parse(
+localStorage.getItem('nepsePricesV24') || '{}'
+);
 
 }catch{
 
-  state.prices = {};
+state.prices={};
 
 }
 
+
+/* =========================================================
+   DEFAULT DATES
+========================================================= */
 
 document.getElementById('date').value =
-  new Date().toISOString().slice(0,10);
+new Date().toISOString().slice(0,10);
 
 document.getElementById('jdate').value =
-  new Date().toISOString().slice(0,10);
+new Date().toISOString().slice(0,10);
 
 
-function esc(s){
-
-  return String(s || '').replace(
-    /[&<>"']/g,
-    m => ({
-      '&':'&amp;',
-      '<':'&lt;',
-      '>':'&gt;',
-      '"':'&quot;',
-      "'":'&#039;'
-    }[m])
-  );
-
-}
-
-
-/* =========================
-   AUTH
-========================= */
+/* =========================================================
+   AUTH UI
+========================================================= */
 
 function authUI(){
 
-  const h =
-    document.querySelector('.header');
+const h =
+document.querySelector('.header');
 
-  const b =
-    document.createElement('div');
+const b =
+document.createElement('div');
 
-  b.id = 'authBox';
+b.id='authBox';
 
-  b.style =
-    'display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end';
+b.style =
+'display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end';
 
-  b.innerHTML = `
+b.innerHTML =
 
-    <button
-      id="loginBtn"
-      class="secondary"
-    >
-      Login / Sign Up
-    </button>
+'<button id="loginBtn" class="secondary">Login / Sign Up</button>' +
 
-    <span
-      id="userEmail"
-      class="sub"
-    ></span>
+'<span id="userEmail" class="sub"></span>' +
 
-    <button
-      id="logoutBtn"
-      class="danger"
-      style="display:none"
-    >
-      Logout
-    </button>
+'<button id="logoutBtn" class="danger" style="display:none">Logout</button>';
 
-  `;
+h.appendChild(b);
 
-  h.appendChild(b);
+loginBtn.onclick =
+showAuth;
 
-  loginBtn.onclick = showAuth;
+logoutBtn.onclick =
+async()=>{
 
-  logoutBtn.onclick =
-    async () =>
-      await sb.auth.signOut();
+await sb.auth.signOut();
+
+};
 
 }
 
+
+/* =========================================================
+   LOGIN MODAL
+========================================================= */
 
 function showAuth(){
 
-  document
-    .getElementById('authModal')
-    ?.remove();
+document.getElementById('authModal')?.remove();
 
-  const m =
-    document.createElement('div');
+const m =
+document.createElement('div');
 
-  m.id = 'authModal';
+m.id='authModal';
 
-  m.style =
-    'position:fixed;inset:0;background:#0008;display:grid;place-items:center;z-index:20;padding:16px';
+m.style =
+'position:fixed;inset:0;background:#0008;display:grid;place-items:center;z-index:20;padding:16px';
 
-  m.innerHTML = `
+m.innerHTML =
 
-    <div
-      class="card"
-      style="width:min(420px,100%);position:relative"
-    >
+'<div class="card" style="width:min(420px,100%);position:relative">' +
 
-      <button
-        onclick="document.getElementById('authModal').remove()"
-        style="
-          position:absolute;
-          right:12px;
-          top:12px;
-          background:#eef2ff;
-          color:#3730a3
-        "
-      >
-        ×
-      </button>
+'<button onclick="document.getElementById(\'authModal\').remove()" style="position:absolute;right:12px;top:12px;background:#eef2ff;color:#3730a3">×</button>' +
 
-      <h2>NEPSE Ledger Login</h2>
+'<h2>NEPSE Ledger Login</h2>' +
 
-      <p class="label">
-        Use your email and password.
-      </p>
+'<p class="label">Use your email and password.</p>' +
 
-      <div class="field">
+'<div class="field">' +
 
-        <label>Email</label>
+'<label>Email</label>' +
 
-        <input
-          id="authEmail"
-          type="email"
-          placeholder="you@example.com"
-        >
+'<input id="authEmail" type="email" placeholder="you@example.com">' +
 
-      </div>
+'</div>' +
 
-      <div
-        class="field"
-        style="margin-top:10px"
-      >
+'<div class="field" style="margin-top:10px">' +
 
-        <label>Password</label>
+'<label>Password</label>' +
 
-        <input
-          id="authPassword"
-          type="password"
-          placeholder="At least 6 characters"
-        >
+'<input id="authPassword" type="password" placeholder="At least 6 characters">' +
 
-      </div>
+'</div>' +
 
-      <div class="actions">
+'<div class="actions">' +
 
-        <button
-          onclick="authAction('signup')"
-        >
-          Sign Up
-        </button>
+'<button onclick="authAction(\'signup\')">Sign Up</button>' +
 
-        <button
-          onclick="authAction('login')"
-          class="secondary"
-        >
-          Login
-        </button>
+'<button onclick="authAction(\'login\')" class="secondary">Login</button>' +
 
-      </div>
+'</div>' +
 
-      <div
-        id="authMsg"
-        class="label"
-        style="margin-top:10px"
-      ></div>
+'<div id="authMsg" class="label" style="margin-top:10px"></div>' +
 
-    </div>
+'</div>';
 
-  `;
-
-  document.body.appendChild(m);
+document.body.appendChild(m);
 
 }
 
+
+/* =========================================================
+   AUTH ACTION
+========================================================= */
 
 async function authAction(a){
 
-  const email =
-    authEmail.value.trim();
+const email =
+authEmail.value.trim();
 
-  const password =
-    authPassword.value;
+const password =
+authPassword.value;
 
-  if(!email || !password){
+if(!email || !password){
 
-    authMsg.textContent =
-      'Email and password required.';
+authMsg.textContent =
+'Email and password required.';
 
-    return;
+return;
 
-  }
+}
 
-  authMsg.textContent =
-    'Please wait...';
+authMsg.textContent =
+'Please wait...';
 
+const r =
+a==='signup'
+?
+await sb.auth.signUp({
+email,
+password
+})
+:
+await sb.auth.signInWithPassword({
+email,
+password
+});
 
-  const r =
-    a === 'signup'
+if(r.error){
 
-      ? await sb.auth.signUp({
-          email,
-          password
-        })
+authMsg.textContent =
+r.error.message;
 
-      : await sb.auth.signInWithPassword({
-          email,
-          password
-        });
+return;
 
+}
 
-  if(r.error){
+if(
+a==='signup' &&
+!r.data.session
+){
 
-    authMsg.textContent =
-      r.error.message;
+authMsg.textContent =
+'Account created. Check your email, confirm it, then Login.';
 
-    return;
+return;
 
-  }
+}
 
-
-  if(
-    a === 'signup' &&
-    !r.data.session
-  ){
-
-    authMsg.textContent =
-      'Account created. Check your email, confirm it, then Login.';
-
-    return;
-
-  }
-
-
-  document
-    .getElementById('authModal')
-    ?.remove();
+document.getElementById('authModal')?.remove();
 
 }
 
 
-/* =========================
+/* =========================================================
    JOURNAL CLOUD
-========================= */
+========================================================= */
 
 async function loadJournalCloud(){
 
-  if(!currentUser){
+if(!currentUser){
 
-    state.journals = [];
+state.journals=[];
 
-    return;
+return;
 
-  }
+}
 
+const r =
+await sb
+.from('journal_entries')
+.select('*')
+.order('journal_date',{ascending:false})
+.order('created_at',{ascending:false});
 
-  const r =
-    await sb
-      .from('journal_entries')
-      .select('*')
-      .order(
-        'journal_date',
-        {
-          ascending:false
-        }
-      )
-      .order(
-        'created_at',
-        {
-          ascending:false
-        }
-      );
+if(r.error){
 
+alert(
+'Could not load journal: ' +
+r.error.message
+);
 
-  if(r.error){
+return;
 
-    alert(
-      'Could not load journal: ' +
-      r.error.message
-    );
+}
 
-    return;
+state.journals =
+(r.data || []).map(j=>({
 
-  }
+id:j.id,
+date:j.journal_date,
+symbol:j.symbol,
+direction:j.direction,
+strategy:j.strategy || '',
+setup:j.setup_reason || '',
+entry:n(j.entry),
+sl:n(j.stop_loss),
+target:n(j.target),
+lesson:j.lesson || ''
 
-
-  state.journals =
-    (r.data || []).map(j => ({
-
-      id:j.id,
-
-      date:j.journal_date,
-
-      symbol:j.symbol,
-
-      direction:j.direction,
-
-      strategy:j.strategy || '',
-
-      setup:j.setup_reason || '',
-
-      entry:n(j.entry),
-
-      sl:n(j.stop_loss),
-
-      target:n(j.target),
-
-      lesson:j.lesson || ''
-
-    }));
+}));
 
 }
 
 
-/* =========================
-   TRADES CLOUD
-========================= */
+/* =========================================================
+   LOAD TRADES
+========================================================= */
 
 async function loadTrades(){
 
-  if(!currentUser){
+if(!currentUser){
 
-    state.trades = [];
+state.trades=[];
 
-    render();
+render();
 
-    return;
+return;
 
-  }
+}
 
+const r =
+await sb
+.from('trades')
+.select('*')
+.order('trade_date',{ascending:true})
+.order('created_at',{ascending:true});
 
-  const r =
-    await sb
-      .from('trades')
-      .select('*')
-      .order(
-        'trade_date',
-        {
-          ascending:true
-        }
-      )
-      .order(
-        'created_at',
-        {
-          ascending:true
-        }
-      );
+if(r.error){
 
+alert(
+'Could not load trades: ' +
+r.error.message
+);
 
-  if(r.error){
+return;
 
-    alert(
-      'Could not load trades: ' +
-      r.error.message
-    );
+}
 
-    return;
+state.trades =
+(r.data || []).map(t=>({
 
-  }
+id:t.id,
+date:t.trade_date,
+symbol:t.symbol,
+side:t.side,
+qty:n(t.quantity),
+price:n(t.price),
+brokerage:n(t.brokerage),
+fee:n(t.fee),
+note:t.note || ''
 
+}));
 
-  state.trades =
-    (r.data || []).map(t => ({
-
-      id:t.id,
-
-      date:t.trade_date,
-
-      symbol:t.symbol,
-
-      side:t.side,
-
-      qty:n(t.quantity),
-
-      price:n(t.price),
-
-      brokerage:n(t.brokerage),
-
-      fee:n(t.fee),
-
-      note:t.note || ''
-
-    }));
-
-
-  render();
+render();
 
 }
 
 
-/* =========================
+/* =========================================================
    BROKERAGE
-========================= */
+========================================================= */
 
 function calcBrokerage(turnover){
 
-  turnover =
-    n(turnover);
+turnover=n(turnover);
 
+if(turnover<=0)
+return 0;
 
-  if(turnover <= 0)
-    return 0;
+/*
+   Existing ledger fee structure:
+   <= 50,000       0.36%
+   50,001-500,000  0.33%
+   500,001-2m      0.31%
+   2m-10m          0.27%
+   >10m            0.24%
 
+   Minimum Rs.10
+*/
 
-  if(turnover <= 2500)
-    return 10;
+if(turnover<=50000)
+return Math.max(
+10,
+turnover*0.0036
+);
 
+if(turnover<=500000)
+return turnover*0.0033;
 
-  if(turnover <= 50000)
-    return Math.max(
-      10,
-      turnover * 0.0036
-    );
+if(turnover<=2000000)
+return turnover*0.0031;
 
+if(turnover<=10000000)
+return turnover*0.0027;
 
-  if(turnover <= 500000)
-    return turnover * 0.0033;
-
-
-  if(turnover <= 2000000)
-    return turnover * 0.0031;
-
-
-  if(turnover <= 10000000)
-    return turnover * 0.0027;
-
-
-  return turnover * 0.0024;
+return turnover*0.0024;
 
 }
 
 
-/* =========================
-   FEE CALCULATOR
-   FIXED:
-   DP CHARGE BOTH BUY/SELL
-========================= */
+/* =========================================================
+   CGT RATE
+========================================================= */
+
+/*
+   FY 2083/84 starts 2026-07-17.
+
+   SELL DATE:
+   before 2026-07-17:
+      <=365 days  = 7.5%
+      >365 days   = 5%
+
+   SELL DATE:
+   2026-07-17 onward:
+      <=365 days  = 10%
+      >365 days   = 7.5%
+*/
+
+function getCGTRate(sellDate,buyDate){
+
+const sell =
+new Date(sellDate+'T00:00:00');
+
+const buy =
+new Date(buyDate+'T00:00:00');
+
+const days =
+Math.floor(
+(sell-buy)/(1000*60*60*24)
+);
+
+const longTerm =
+days > 365;
+
+const newFY =
+sell >=
+new Date('2026-07-17T00:00:00');
+
+let rate;
+
+if(newFY){
+
+rate =
+longTerm
+? 0.075
+: 0.10;
+
+}else{
+
+rate =
+longTerm
+? 0.05
+: 0.075;
+
+}
+
+return {
+
+rate,
+days,
+longTerm,
+newFY
+
+};
+
+}
+
+
+/* =========================================================
+   FEE PREVIEW
+========================================================= */
 
 function updateFeePreview(){
 
-  const mode =
-    document.getElementById(
-      'feeMode'
-    )?.value || 'auto';
+const mode =
+document.getElementById('feeMode')?.value || 'auto';
+
+const q =
+n(document.getElementById('qty')?.value);
+
+const p =
+n(document.getElementById('price')?.value);
+
+const s =
+document.getElementById('side')?.value || 'BUY';
+
+const dp =
+n(document.getElementById('dpCharge')?.value);
+
+const turnover =
+q*p;
+
+const broker =
+calcBrokerage(turnover);
+
+const sebon =
+turnover*0.00015;
+
+const totalFee =
+broker +
+sebon +
+dp;
+
+const b =
+document.getElementById('brokerage');
+
+const f =
+document.getElementById('fee');
+
+const preview =
+document.getElementById('feePreview');
 
 
-  const q =
-    n(
-      document.getElementById(
-        'qty'
-      )?.value
-    );
+if(mode==='auto'){
 
+b.value =
+broker.toFixed(2);
 
-  const p =
-    n(
-      document.getElementById(
-        'price'
-      )?.value
-    );
+f.value =
+(sebon+dp).toFixed(2);
 
+b.readOnly=true;
+f.readOnly=true;
 
-  const s =
-    document.getElementById(
-      'side'
-    )?.value || 'BUY';
+preview.innerHTML =
 
+`Estimated charges:
+<b>Brokerage ${money(broker)}</b>
++
+<b>SEBON ${money(sebon)}</b>
++
+<b>DP ${money(dp)}</b>
+=
+<b>${money(totalFee)}</b>.
+Turnover: ${money(turnover)}.
+<br><br>
+DP charge is included on <b>${s}</b> side.`;
 
-  /*
-    DP CHARGE IS NOW APPLIED
-    TO BOTH BUY AND SELL
-  */
+}else{
 
-  const dp =
-    n(
-      document.getElementById(
-        'dpCharge'
-      )?.value
-    );
+b.readOnly=false;
+f.readOnly=false;
 
+preview.textContent =
+'Manual mode: enter exact brokerage + SEBON + DP charges from your broker contract note.';
 
-  const turnover =
-    q * p;
-
-
-  const broker =
-    calcBrokerage(
-      turnover
-    );
-
-
-  const sebon =
-    turnover * 0.00015;
-
-
-  /*
-    SEBON + DP
-  */
-
-  const other =
-    sebon + dp;
-
-
-  const b =
-    document.getElementById(
-      'brokerage'
-    );
-
-
-  const f =
-    document.getElementById(
-      'fee'
-    );
-
-
-  const preview =
-    document.getElementById(
-      'feePreview'
-    );
-
-
-  if(mode === 'auto'){
-
-    b.value =
-      broker.toFixed(2);
-
-    f.value =
-      other.toFixed(2);
-
-
-    b.readOnly = true;
-
-    f.readOnly = true;
-
-
-    if(preview){
-
-      preview.innerHTML = `
-
-        Estimated charges:
-
-        <b>Brokerage ${money(broker)}</b>
-        +
-
-        <b>SEBON ${money(sebon)}</b>
-        +
-
-        <b>DP ${money(dp)}</b>
-
-        =
-
-        <b>${money(broker + other)}</b>.
-
-        Turnover:
-        ${money(turnover)}.
-
-      `;
-
-    }
-
-  }else{
-
-    b.readOnly = false;
-
-    f.readOnly = false;
-
-
-    if(preview){
-
-      preview.textContent =
-        'Manual mode: enter the exact charges from your broker contract note.';
-
-    }
-
-  }
+}
 
 }
 
 
-/*
-  Update calculator whenever
-  quantity / price / side / fee mode / DP
-  changes.
-*/
+/* =========================================================
+   FEE EVENTS
+========================================================= */
 
-[
-  'qty',
-  'price',
-  'side',
-  'feeMode',
-  'dpCharge'
-].forEach(id => {
+['qty','price','side','feeMode','dpCharge']
+.forEach(id=>{
 
-  document
-    .getElementById(id)
-    ?.addEventListener(
-      'input',
-      updateFeePreview
-    );
+document
+.getElementById(id)
+?.addEventListener(
+'input',
+updateFeePreview
+);
+
+});
+
+['side','feeMode','dpCharge']
+.forEach(id=>{
+
+document
+.getElementById(id)
+?.addEventListener(
+'change',
+updateFeePreview
+);
 
 });
 
 
-[
-  'side',
-  'feeMode',
-  'dpCharge'
-].forEach(id => {
-
-  document
-    .getElementById(id)
-    ?.addEventListener(
-      'change',
-      updateFeePreview
-    );
-
-});
-
-
-/* =========================
-   ADD TRADE
-========================= */
+/* =========================================================
+   ADD TRADE TO CLOUD
+========================================================= */
 
 async function addTrade(t){
 
-  const r =
-    await sb
-      .from('trades')
-      .insert({
+const r =
+await sb
+.from('trades')
+.insert({
 
-        user_id:currentUser.id,
+user_id:currentUser.id,
 
-        trade_date:t.date,
+trade_date:t.date,
 
-        symbol:t.symbol,
+symbol:t.symbol,
 
-        side:t.side,
+side:t.side,
 
-        quantity:t.qty,
+quantity:t.qty,
 
-        price:t.price,
+price:t.price,
 
-        brokerage:t.brokerage,
+brokerage:t.brokerage,
 
-        fee:t.fee,
+fee:t.fee,
 
-        note:t.note
+note:t.note
 
-      });
+});
 
+if(r.error){
 
-  if(r.error){
+alert(
+'Trade save failed: ' +
+r.error.message
+);
 
-    alert(
-      'Trade save failed: ' +
-      r.error.message
-    );
+return false;
 
-    return false;
+}
 
-  }
-
-
-  return true;
+return true;
 
 }
 
 
-/* =========================
+/* =========================================================
    DELETE TRADE
-========================= */
+========================================================= */
 
 async function deleteTrade(id){
 
-  if(
-    !confirm(
-      'Delete this trade?'
-    )
-  )
-    return;
+if(
+!confirm('Delete this trade?')
+)return;
 
+const r =
+await sb
+.from('trades')
+.delete()
+.eq('id',id)
+.eq('user_id',currentUser.id);
 
-  const r =
-    await sb
-      .from('trades')
-      .delete()
-      .eq(
-        'id',
-        id
-      )
-      .eq(
-        'user_id',
-        currentUser.id
-      );
+if(r.error){
 
+alert(
+'Delete failed: ' +
+r.error.message
+);
 
-  if(r.error){
+return;
 
-    alert(
-      'Delete failed: ' +
-      r.error.message
-    );
+}
 
-    return;
-
-  }
-
-
-  await loadTrades();
+await loadTrades();
 
 }
 
 
-/* =========================
-   TABS
-========================= */
+/* =========================================================
+   TAB SWITCHING
+========================================================= */
 
 document
-  .querySelectorAll('.tab')
-  .forEach(b => {
+.querySelectorAll('.tab')
+.forEach(b=>{
 
-    b.onclick = () => {
-
-      document
-        .querySelectorAll('.tab')
-        .forEach(x =>
-          x.classList.remove(
-            'active'
-          )
-        );
-
-
-      document
-        .querySelectorAll('.section')
-        .forEach(x =>
-          x.classList.remove(
-            'active'
-          )
-        );
-
-
-      b.classList.add(
-        'active'
-      );
-
-
-      document
-        .getElementById(
-          b.dataset.tab
-        )
-        .classList.add(
-          'active'
-        );
-
-
-      render();
-
-    };
-
-  });
-
-
-/* =========================
-   TRADE FORM
-========================= */
+b.onclick=()=>{
 
 document
-  .getElementById('tradeForm')
-  .onsubmit = async e => {
+.querySelectorAll('.tab')
+.forEach(x=>
+x.classList.remove('active')
+);
 
-    e.preventDefault();
+document
+.querySelectorAll('.section')
+.forEach(x=>
+x.classList.remove('active')
+);
 
+b.classList.add('active');
 
-    if(!currentUser){
+document
+.getElementById(b.dataset.tab)
+.classList.add('active');
 
-      showAuth();
+render();
 
-      return;
+};
 
-    }
-
-
-    if(
-      feeMode.value === 'auto'
-    ){
-
-      updateFeePreview();
-
-    }
-
-
-    const t = {
-
-      date:date.value,
-
-      symbol:
-        symbol.value
-          .trim()
-          .toUpperCase(),
-
-      side:side.value,
-
-      qty:n(qty.value),
-
-      price:n(price.value),
-
-      brokerage:n(
-        brokerage.value
-      ),
-
-      fee:n(
-        fee.value
-      ),
-
-      note:
-        note.value.trim()
-
-    };
+});
 
 
-    if(
-      await addTrade(t)
-    ){
+/* =========================================================
+   ADD TRADE FORM
+========================================================= */
 
-      await loadTrades();
+document
+.getElementById('tradeForm')
+.onsubmit = async e=>{
+
+e.preventDefault();
+
+if(!currentUser){
+
+showAuth();
+
+return;
+
+}
+
+if(
+feeMode.value==='auto'
+){
+
+updateFeePreview();
+
+}
+
+const t={
+
+date:date.value,
+
+symbol:
+symbol.value
+.trim()
+.toUpperCase(),
+
+side:side.value,
+
+qty:n(qty.value),
+
+price:n(price.value),
+
+brokerage:n(brokerage.value),
+
+fee:n(fee.value),
+
+note:
+note.value.trim()
+
+};
 
 
-      e.target.reset();
+if(
+await addTrade(t)
+){
+
+await loadTrades();
+
+e.target.reset();
+
+date.value =
+new Date()
+.toISOString()
+.slice(0,10);
+
+brokerage.value=0;
+
+fee.value=25;
+
+feeMode.value='auto';
+
+dpCharge.value='25';
+
+updateFeePreview();
+
+alert(
+'Trade saved to cloud.'
+);
+
+}
+
+};
 
 
-      date.value =
-        new Date()
-          .toISOString()
-          .slice(0,10);
-
-
-      brokerage.value = 0;
-
-      fee.value = 0;
-
-      feeMode.value =
-        'auto';
-
-      dpCharge.value =
-        '25';
-
-
-      updateFeePreview();
-
-
-      alert(
-        'Trade saved to cloud.'
-      );
-
-    }
-
-  };
-
-
-/* =========================
+/* =========================================================
    CLEAR TRADE FORM
-========================= */
+========================================================= */
 
 function clearTradeForm(){
 
-  document
-    .getElementById(
-      'tradeForm'
-    )
-    .reset();
-
-
-  date.value =
-    new Date()
-      .toISOString()
-      .slice(0,10);
-
-
-  brokerage.value = 0;
-
-  fee.value = 0;
-
-  feeMode.value =
-    'auto';
-
-
-  /*
-    Default DP = Rs.25
-  */
-
-  dpCharge.value =
-    '25';
-
-
-  updateFeePreview();
-
-}
-
-
-/* =========================
-   PORTFOLIO CALCULATION
-========================= */
-
-function calc(){
-
-  let h = {};
-
-  let realized = 0;
-
-
-  [...state.trades]
-    .sort(
-      (a,b) =>
-        a.date.localeCompare(
-          b.date
-        )
-    )
-    .forEach(t => {
-
-      let s =
-        h[t.symbol] ||
-        (h[t.symbol] = {
-          qty:0,
-          cost:0
-        });
-
-
-      let gross =
-        t.qty * t.price;
-
-
-      let charges =
-        t.brokerage +
-        t.fee;
-
-
-      if(
-        t.side === 'BUY'
-      ){
-
-        /*
-          BUY cost includes:
-          Gross + Brokerage + SEBON + DP
-        */
-
-        s.qty +=
-          t.qty;
-
-        s.cost +=
-          gross +
-          charges;
-
-      }else{
-
-        let avg =
-          s.qty
-            ? s.cost / s.qty
-            : 0;
-
-
-        let costSold =
-          avg * t.qty;
-
-
-        /*
-          SELL proceeds after:
-          Brokerage + SEBON + DP
-        */
-
-        realized +=
-          gross -
-          charges -
-          costSold;
-
-
-        s.qty -=
-          t.qty;
-
-        s.cost -=
-          costSold;
-
-
-        if(s.qty < 0)
-          s.qty = 0;
-
-
-        if(s.cost < 0)
-          s.cost = 0;
-
-      }
-
-    });
-
-
-  return {
-    holdings:h,
-    realized
-  };
-
-}
-
-
-/* =========================
-   VALUE DISPLAY
-========================= */
-
-function setVal(id,x){
-
-  const e =
-    document.getElementById(
-      id
-    );
-
-
-  e.textContent =
-    money(x);
-
-
-  e.className =
-    'value ' +
-    (
-      x > 0
-        ? 'good'
-        : x < 0
-          ? 'bad'
-          : ''
-    );
-
-}
-
-
-/* =========================
-   RENDER
-========================= */
-
-function render(){
-
-  const {
-    holdings,
-    realized
-  } = calc();
-
-
-  let cost = 0;
-
-  let market = 0;
-
-  let holdingCount = 0;
-
-
-  Object
-    .entries(holdings)
-    .forEach(
-      ([s,x]) => {
-
-        if(x.qty > 0){
-
-          holdingCount++;
-
-          cost +=
-            x.cost;
-
-          market +=
-            x.qty *
-            n(
-              state.prices[s]
-            );
-
-        }
-
-      }
-    );
-
-
-  const unrealized =
-    market - cost;
-
-
-  const totalPL =
-    realized +
-    unrealized;
-
-
-  const overallReturn =
-    cost
-      ? totalPL / cost * 100
-      : 0;
-
-
-  setVal(
-    'unrealized',
-    unrealized
-  );
-
-
-  setVal(
-    'realized',
-    realized
-  );
-
-
-  document
-    .getElementById('cost')
-    .textContent =
-      money(cost);
-
-
-  document
-    .getElementById('market')
-    .textContent =
-      money(market);
-
-
-  document
-    .getElementById('trades')
-    .textContent =
-      state.trades.length;
-
-
-  const buys =
-    state.trades
-      .filter(
-        t => t.side === 'BUY'
-      )
-      .length;
-
-
-  const sells =
-    state.trades
-      .filter(
-        t => t.side === 'SELL'
-      );
-
-
-  let wins = 0;
-
-  let losses = 0;
-
-  let hs = {};
-
-
-  [...state.trades]
-    .sort(
-      (a,b) =>
-        a.date.localeCompare(
-          b.date
-        )
-    )
-    .forEach(t => {
-
-      let s =
-        hs[t.symbol] ||
-        (hs[t.symbol] = {
-          q:0,
-          c:0
-        });
-
-
-      if(
-        t.side === 'BUY'
-      ){
-
-        /*
-          BUY average cost includes
-          all charges including DP.
-        */
-
-        s.q +=
-          t.qty;
-
-        s.c +=
-          t.qty *
-          t.price +
-          t.brokerage +
-          t.fee;
-
-      }else{
-
-        let avg =
-          s.q
-            ? s.c / s.q
-            : 0;
-
-
-        let p =
-          t.qty *
-          (
-            t.price -
-            avg
-          ) -
-          t.brokerage -
-          t.fee;
-
-
-        if(p >= 0)
-          wins++;
-        else
-          losses++;
-
-
-        s.c -=
-          avg *
-          t.qty;
-
-        s.q -=
-          t.qty;
-
-      }
-
-    });
-
-
-  const winrate =
-    sells.length
-      ? wins /
-        sells.length *
-        100
-      : 0;
-
-
-  document
-    .getElementById('wins')
-    .textContent =
-      wins;
-
-
-  document
-    .getElementById('losses')
-    .textContent =
-      losses;
-
-
-  document
-    .getElementById('winrate')
-    .textContent =
-      winrate.toFixed(1) +
-      '%';
-
-
-  document
-    .getElementById('totalInvestment')
-    .textContent =
-      money(cost);
-
-
-  setVal(
-    'totalPL',
-    totalPL
-  );
-
-
-  document
-    .getElementById('overallReturn')
-    .textContent =
-      overallReturn.toFixed(2) +
-      '%';
-
-
-  document
-    .getElementById('overallReturn')
-    .className =
-      'value ' +
-      (
-        overallReturn > 0
-          ? 'good'
-          : overallReturn < 0
-            ? 'bad'
-            : ''
-      );
-
-
-  document
-    .getElementById('holdingCount')
-    .textContent =
-      holdingCount;
-
-
-  document
-    .getElementById('buyTrades')
-    .textContent =
-      buys;
-
-
-  document
-    .getElementById('sellTrades')
-    .textContent =
-      sells.length;
-
-
-  document
-    .getElementById('dashWins')
-    .textContent =
-      wins;
-
-
-  document
-    .getElementById('dashLosses')
-    .textContent =
-      losses;
-
-
-  renderPortfolio(
-    holdings
-  );
-
-  renderHistory();
-
-  renderJournal();
-
-  updateAuth();
-
-}
-
-
-/* =========================
-   PORTFOLIO TABLE
-========================= */
-
-function renderPortfolio(h){
-
-  const b =
-    document.getElementById(
-      'portfolioBody'
-    );
-
-
-  b.innerHTML = '';
-
-
-  Object
-    .entries(h)
-    .filter(
-      ([_,s]) =>
-        s.qty > 0
-    )
-    .forEach(
-      ([sym,s]) => {
-
-        let avg =
-          s.cost /
-          s.qty;
-
-
-        let p =
-          n(
-            state.prices[sym]
-          );
-
-
-        let mv =
-          s.qty * p;
-
-
-        let pnl =
-          mv - s.cost;
-
-
-        let ret =
-          s.cost
-            ? pnl /
-              s.cost *
-              100
-            : 0;
-
-
-        const tr =
-          document.createElement(
-            'tr'
-          );
-
-
-        tr.innerHTML = `
-
-          <td>
-            <b>${esc(sym)}</b>
-          </td>
-
-          <td>
-            ${s.qty}
-          </td>
-
-          <td>
-            ${money(avg)}
-          </td>
-
-          <td>
-            ${money(s.cost)}
-          </td>
-
-          <td>
-
-            <input
-              style="width:110px"
-              type="number"
-              step="0.01"
-              value="${p || ''}"
-              placeholder="price"
-              data-price="${esc(sym)}"
-            >
-
-          </td>
-
-          <td>
-            ${money(mv)}
-          </td>
-
-          <td class="${pnl >= 0 ? 'good' : 'bad'}">
-            ${money(pnl)}
-          </td>
-
-          <td>
-            ${ret.toFixed(2)}%
-          </td>
-
-          <td>
-
-            <button
-              class="secondary"
-              onclick="savePrice('${esc(sym)}')"
-            >
-              Save
-            </button>
-
-          </td>
-
-        `;
-
-
-        b.appendChild(tr);
-
-      }
-    );
-
-
-  b
-    .querySelectorAll(
-      'input[data-price]'
-    )
-    .forEach(i => {
-
-      i.onchange = () => {
-
-        state.prices[
-          i.dataset.price
-        ] =
-          n(i.value);
-
-
-        localStorage.setItem(
-          'nepsePricesV21',
-          JSON.stringify(
-            state.prices
-          )
-        );
-
-
-        render();
-
-      };
-
-    });
-
-
-  if(
-    !b.children.length
-  ){
-
-    b.innerHTML = `
-
-      <tr>
-
-        <td
-          colspan="9"
-          class="empty"
-        >
-          No current holdings.
-        </td>
-
-      </tr>
-
-    `;
-
-  }
-
-}
-
-
-/* =========================
-   SAVE MARKET PRICE
-========================= */
-
-function savePrice(sym){
-
-  const i =
-    document.querySelector(
-      `input[data-price="${sym}"]`
-    );
-
-
-  state.prices[sym] =
-    n(i.value);
-
-
-  localStorage.setItem(
-    'nepsePricesV21',
-    JSON.stringify(
-      state.prices
-    )
-  );
-
-
-  render();
-
-}
-
-
-/* =========================
-   TRADE HISTORY
-========================= */
-
-function renderHistory(){
-
-  const b =
-    document.getElementById(
-      'historyBody'
-    );
-
-
-  b.innerHTML = '';
-
-
-  [...state.trades]
-    .sort(
-      (a,b) =>
-        b.date.localeCompare(
-          a.date
-        )
-    )
-    .forEach(t => {
-
-      const tr =
-        document.createElement(
-          'tr'
-        );
-
-
-      tr.innerHTML = `
-
-        <td>
-          ${t.date}
-        </td>
-
-        <td>
-          <b>${esc(t.symbol)}</b>
-        </td>
-
-        <td
-          class="${t.side === 'BUY' ? 'good' : 'bad'}"
-        >
-          ${t.side}
-        </td>
-
-        <td>
-          ${t.qty}
-        </td>
-
-        <td>
-          ${money(t.price)}
-        </td>
-
-        <td>
-          ${money(
-            t.qty *
-            t.price
-          )}
-        </td>
-
-        <td>
-          ${money(
-            t.brokerage +
-            t.fee
-          )}
-        </td>
-
-        <td>
-          ${esc(t.note)}
-        </td>
-
-        <td>
-
-          <button
-            class="danger"
-            onclick="deleteTrade('${t.id}')"
-          >
-            Delete
-          </button>
-
-        </td>
-
-      `;
-
-
-      b.appendChild(tr);
-
-    });
-
-
-  if(
-    !b.children.length
-  ){
-
-    b.innerHTML = `
-
-      <tr>
-
-        <td
-          colspan="9"
-          class="empty"
-        >
-          No trades yet.
-        </td>
-
-      </tr>
-
-    `;
-
-  }
-
-}
-
-
-/* =========================
-   JOURNAL SAVE
-========================= */
-
 document
-  .getElementById('journalForm')
-  .onsubmit = async e => {
-
-    e.preventDefault();
-
-
-    if(!currentUser){
-
-      showAuth();
-
-      return;
-
-    }
-
-
-    const j = {
-
-      user_id:
-        currentUser.id,
-
-      journal_date:
-        jdate.value,
-
-      symbol:
-        jsymbol.value
-          .trim()
-          .toUpperCase(),
-
-      direction:
-        jdirection.value,
-
-      strategy:
-        strategy.value.trim(),
-
-      setup_reason:
-        setup.value.trim(),
-
-      entry:
-        n(jentry.value),
-
-      stop_loss:
-        n(sl.value),
-
-      target:
-        n(target.value),
-
-      lesson:
-        lesson.value.trim()
-
-    };
-
-
-    const r =
-      await sb
-        .from(
-          'journal_entries'
-        )
-        .insert(j);
-
-
-    if(r.error){
-
-      alert(
-        'Journal save failed: ' +
-        r.error.message
-      );
-
-      return;
-
-    }
-
-
-    await loadJournalCloud();
-
-    render();
-
-
-    e.target.reset();
-
-
-    jdate.value =
-      new Date()
-        .toISOString()
-        .slice(0,10);
-
-
-    alert(
-      'Journal saved to cloud.'
-    );
-
-  };
-
-
-function loadJournal(){
-
-  state.journals = [];
-
-}
-
-
-function renderJournal(){
-
-  const el =
-    document.getElementById(
-      'journalList'
-    );
-
-
-  el.innerHTML = '';
-
-
-  if(
-    !state.journals.length
-  ){
-
-    el.innerHTML =
-      '<div class="empty">No journal entries yet.</div>';
-
-    return;
-
-  }
-
-
-  state.journals.forEach(j => {
-
-    const d =
-      document.createElement(
-        'div'
-      );
-
-
-    d.className =
-      'card';
-
-
-    d.style.margin =
-      '10px 0';
-
-
-    d.innerHTML = `
-
-      <b>
-        ${j.date} •
-        ${esc(j.symbol)} •
-        ${j.direction}
-      </b>
-
-      <div class="label">
-        ${esc(j.strategy)}
-      </div>
-
-      <p>
-        ${esc(j.setup)}
-      </p>
-
-      <small>
-        Entry: ${j.entry || '-'}
-        |
-        SL: ${j.sl || '-'}
-        |
-        Target: ${j.target || '-'}
-      </small>
-
-      <p>
-        <b>Lesson:</b>
-        ${esc(j.lesson)}
-      </p>
-
-      <button
-        class="danger"
-        onclick="deleteJournal('${j.id}')"
-      >
-        Delete
-      </button>
-
-    `;
-
-
-    el.appendChild(d);
-
-  });
-
-}
-
-
-/* =========================
-   DELETE JOURNAL
-========================= */
-
-async function deleteJournal(id){
-
-  if(!currentUser)
-    return;
-
-
-  if(
-    !confirm(
-      'Delete this journal entry?'
-    )
-  )
-    return;
-
-
-  const r =
-    await sb
-      .from(
-        'journal_entries'
-      )
-      .delete()
-      .eq(
-        'id',
-        id
-      )
-      .eq(
-        'user_id',
-        currentUser.id
-      );
-
-
-  if(r.error){
-
-    alert(
-      'Journal delete failed: ' +
-      r.error.message
-    );
-
-    return;
-
-  }
-
-
-  await loadJournalCloud();
-
-  render();
-
-}
-
-
-/* =========================
-   EXPORT BACKUP
-========================= */
-
-function exportData(){
-
-  const blob =
-    new Blob(
-      [
-        JSON.stringify(
-          {
-            trades:
-              state.trades,
-
-            journals:
-              state.journals,
-
-            prices:
-              state.prices
-
-          },
-          null,
-          2
-        )
-      ],
-      {
-        type:
-          'application/json'
-      }
-    );
-
-
-  const a =
-    document.createElement(
-      'a'
-    );
-
-
-  a.href =
-    URL.createObjectURL(
-      blob
-    );
-
-
-  a.download =
-    'nepse-ledger-backup.json';
-
-
-  a.click();
-
-
-  URL.revokeObjectURL(
-    a.href
-  );
-
-}
-
-
-/* =========================
-   DELETE ALL
-========================= */
-
-function clearAll(){
-
-  alert(
-    'V2 uses cloud trades. Delete individual trades from Trade History. Journal remains in your Supabase cloud database.'
-  );
-
-}
-
-
-/* =========================
-   AUTH UI
-========================= */
-
-function updateAuth(){
-
-  const l =
-    document.getElementById(
-      'loginBtn'
-    );
-
-
-  const o =
-    document.getElementById(
-      'logoutBtn'
-    );
-
-
-  const e =
-    document.getElementById(
-      'userEmail'
-    );
-
-
-  if(!l)
-    return;
-
-
-  if(currentUser){
-
-    l.style.display =
-      'none';
-
-    o.style.display =
-      'inline-block';
-
-    e.textContent =
-      currentUser.email || '';
-
-  }else{
-
-    l.style.display =
-      'inline-block';
-
-    o.style.display =
-      'none';
-
-    e.textContent =
-      'Not logged in';
-
-  }
-
-}
-
-
-/* =========================
-   INITIALIZE
-========================= */
-
-async function init(){
-
-  authUI();
-
-
-  const r =
-    await sb.auth.getSession();
-
-
-  currentUser =
-    r.data.session?.user ||
-    null;
-
-
-  updateAuth();
-
-
-  await loadTrades();
-
-  await loadJournalCloud();
-
-
-  sb.auth.onAuthStateChange(
-    async (_,session) => {
-
-      currentUser =
-        session?.user ||
-        null;
-
-
-      updateAuth();
-
-
-      await loadTrades();
-
-      await loadJournalCloud();
-
-    }
-  );
-
-
-  render();
-
-}
-
-
-init();
-
-
-/* =========================
-   INITIAL DEFAULTS
-========================= */
+.getElementById('tradeForm')
+.reset();
 
 date.value =
-  new Date()
-    .toISOString()
-    .slice(0,10);
+new Date()
+.toISOString()
+.slice(0,10);
+
+brokerage.value=0;
+
+fee.value=25;
+
+feeMode.value='auto';
+
+dpCharge.value='25';
+
+updateFeePreview();
+
+}
 
 
-jdate.value =
-  new Date()
-    .toISOString()
-    .slice(0,10);
+/* =========================================================
+   CORE CALCULATION
+========================================================= */
+
+/*
+   IMPORTANT:
+
+   We maintain BUY lots.
+
+   Each BUY lot stores:
+
+   qty
+   remaining qty
+   buy price
+   buy charges
+   buy date
+
+   SELL uses FIFO lots.
+
+   This allows CGT holding period to be calculated
+   from actual BUY date.
+*/
+
+function calculateLedger(){
+
+const holdings={};
+
+const lots={};
+
+let realized=0;
+
+let totalCGT=0;
+
+let wins=0;
+
+let losses=0;
+
+let sellResults=[];
+
+
+/* chronological order */
+
+const trades =
+[...state.trades]
+.sort(
+(a,b)=>
+a.date.localeCompare(b.date)
+);
+
+
+for(const t of trades){
+
+const sym =
+t.symbol;
+
+if(!lots[sym])
+lots[sym]=[];
+
+
+if(!holdings[sym]){
+
+holdings[sym]={
+qty:0,
+cost:0
+};
+
+}
+
+
+/* ================= BUY ================= */
+
+if(t.side==='BUY'){
+
+const gross =
+t.qty*t.price;
+
+const buyCharges =
+t.brokerage+t.fee;
+
+const totalCost =
+gross+buyCharges;
+
+holdings[sym].qty +=
+t.qty;
+
+holdings[sym].cost +=
+totalCost;
 
 
 /*
-  Default DP charge = Rs.25
-  for BOTH BUY and SELL
+   Per-share cost of this lot.
 */
 
-dpCharge.value =
-  '25';
+const unitCost =
+t.qty
+?
+totalCost/t.qty
+:
+0;
 
+lots[sym].push({
+
+date:t.date,
+
+qty:t.qty,
+
+remaining:t.qty,
+
+unitCost,
+
+totalCost
+
+});
+
+continue;
+
+}
+
+
+/* ================= SELL ================= */
+
+if(t.side==='SELL'){
+
+let sellRemaining =
+t.qty;
+
+const grossSale =
+t.qty*t.price;
+
+const sellCharges =
+t.brokerage+t.fee;
+
+let allocatedCost=0;
+
+let saleCGT=0;
+
+let saleProfitBeforeCGT=0;
+
+let weightedHoldingDays=0;
+
+let allocatedQtyForDays=0;
+
+
+/*
+   FIFO allocation
+*/
+
+while(
+sellRemaining>0 &&
+lots[sym].length
+){
+
+const lot =
+lots[sym][0];
+
+const useQty =
+Math.min(
+sellRemaining,
+lot.remaining
+);
+
+const lotCost =
+useQty*lot.unitCost;
+
+allocatedCost +=
+lotCost;
+
+
+/*
+   Holding period
+*/
+
+const cg =
+getCGTRate(
+t.date,
+lot.date
+);
+
+weightedHoldingDays +=
+cg.days*useQty;
+
+allocatedQtyForDays +=
+useQty;
+
+
+/*
+   Gross gain allocated to this lot
+*/
+
+const allocatedSale =
+useQty*t.price;
+
+const allocatedSellCharges =
+t.qty
+?
+sellCharges*(useQty/t.qty)
+:
+0;
+
+const gain =
+allocatedSale -
+lotCost -
+allocatedSellCharges;
+
+
+/*
+   CGT only if gain > 0
+*/
+
+const cgt =
+gain>0
+?
+gain*cg.rate
+:
+0;
+
+saleCGT +=
+cgt;
+
+
+/*
+   Reduce lot
+*/
+
+lot.remaining -=
+useQty;
+
+sellRemaining -=
+useQty;
+
+if(
+lot.remaining<=0.0000001
+){
+
+lots[sym].shift();
+
+}
+
+}
+
+
+/*
+   If selling more than available holdings,
+   remaining quantity is treated as zero-cost
+   for display but warning is generated.
+*/
+
+let shortQty=0;
+
+if(sellRemaining>0){
+
+shortQty=
+sellRemaining;
+
+}
+
+
+/*
+   Reduce current holding.
+
+   Use allocated cost for exact FIFO basis.
+*/
+
+holdings[sym].qty -=
+t.qty-shortQty;
+
+holdings[sym].cost -=
+allocatedCost;
+
+if(
+holdings[sym].qty<0
+)
+holdings[sym].qty=0;
+
+if(
+holdings[sym].cost<0
+)
+holdings[sym].cost=0;
+
+
+/*
+   Net realized P/L after CGT.
+*/
+
+const netProfit =
+grossSale -
+sellCharges -
+allocatedCost -
+saleCGT;
+
+
+/*
+   Win/loss
+*/
+
+if(netProfit>=0)
+wins++;
+else
+losses++;
+
+realized +=
+netProfit;
+
+totalCGT +=
+saleCGT;
+
+
+/*
+   Average holding days
+*/
+
+const avgHoldingDays =
+allocatedQtyForDays
+?
+weightedHoldingDays/
+allocatedQtyForDays
+:
+0;
+
+
+sellResults.push({
+
+id:t.id,
+
+date:t.date,
+
+symbol:sym,
+
+qty:t.qty,
+
+price:t.price,
+
+gross:grossSale,
+
+charges:sellCharges,
+
+cost:allocatedCost,
+
+cgt:saleCGT,
+
+net:netProfit,
+
+holdingDays:avgHoldingDays,
+
+shortQty
+
+});
+
+}
+
+}
+
+
+/* =========================================================
+   CLEAN EMPTY HOLDINGS
+========================================================= */
+
+Object.keys(holdings)
+.forEach(sym=>{
+
+if(
+holdings[sym].qty<=0.0000001
+){
+
+holdings[sym].qty=0;
+holdings[sym].cost=0;
+
+}
+
+});
+
+
+return{
+
+holdings,
+
+lots,
+
+realized,
+
+totalCGT,
+
+wins,
+
+losses,
+
+sellResults
+
+};
+
+}
+
+
+/* =========================================================
+   DASHBOARD VALUE
+========================================================= */
+
+function setVal(id,x){
+
+const e =
+document.getElementById(id);
+
+e.textContent =
+money(x);
+
+e.className =
+'value ' +
+(
+x>0
+?'good'
+:x<0
+?'bad'
+:''
+);
+
+}
+
+
+/* =========================================================
+   MAIN RENDER
+========================================================= */
+
+function render(){
+
+const result =
+calculateLedger();
+
+const holdings =
+result.holdings;
+
+const realized =
+result.realized;
+
+let cost=0;
+
+let market=0;
+
+let holdingCount=0;
+
+
+Object.entries(holdings)
+.forEach(
+([s,x])=>{
+
+if(x.qty>0){
+
+holdingCount++;
+
+cost +=
+x.cost;
+
+market +=
+x.qty *
+n(state.prices[s]);
+
+}
+
+});
+
+
+const unrealized =
+market-cost;
+
+const totalPL =
+realized+unrealized;
+
+const overallReturn =
+cost
+?
+totalPL/cost*100
+:
+0;
+
+
+setVal(
+'unrealized',
+unrealized
+);
+
+setVal(
+'realized',
+realized
+);
+
+document
+.getElementById('cost')
+.textContent =
+money(cost);
+
+document
+.getElementById('market')
+.textContent =
+money(market);
+
+document
+.getElementById('trades')
+.textContent =
+state.trades.length;
+
+
+/*
+   BUY / SELL count
+*/
+
+const buys =
+state.trades
+.filter(
+t=>t.side==='BUY'
+)
+.length;
+
+const sells =
+state.trades
+.filter(
+t=>t.side==='SELL'
+);
+
+const wins =
+result.wins;
+
+const losses =
+result.losses;
+
+const winrate =
+sells.length
+?
+wins/sells.length*100
+:
+0;
+
+
+document
+.getElementById('wins')
+.textContent =
+wins;
+
+document
+.getElementById('losses')
+.textContent =
+losses;
+
+document
+.getElementById('winrate')
+.textContent =
+winrate.toFixed(1)+'%';
+
+
+document
+.getElementById('totalInvestment')
+.textContent =
+money(cost);
+
+setVal(
+'totalPL',
+totalPL
+);
+
+
+document
+.getElementById('overallReturn')
+.textContent =
+overallReturn.toFixed(2)+'%';
+
+document
+.getElementById('overallReturn')
+.className =
+'value ' +
+(
+overallReturn>0
+?'good'
+:overallReturn<0
+?'bad'
+:''
+);
+
+
+document
+.getElementById('holdingCount')
+.textContent =
+holdingCount;
+
+document
+.getElementById('buyTrades')
+.textContent =
+buys;
+
+document
+.getElementById('sellTrades')
+.textContent =
+sells.length;
+
+document
+.getElementById('dashWins')
+.textContent =
+wins;
+
+document
+.getElementById('dashLosses')
+.textContent =
+losses;
+
+
+renderPortfolio(
+holdings
+);
+
+renderHistory(
+result.sellResults
+);
+
+renderJournal();
+
+updateAuth();
+
+}
+
+
+/* =========================================================
+   PORTFOLIO
+========================================================= */
+
+function renderPortfolio(h){
+
+const b =
+document.getElementById(
+'portfolioBody'
+);
+
+b.innerHTML='';
+
+
+Object.entries(h)
+.filter(
+([_,s])=>s.qty>0
+)
+.forEach(
+([sym,s])=>{
+
+const avg =
+s.cost/s.qty;
+
+const p =
+n(state.prices[sym]);
+
+const mv =
+s.qty*p;
+
+const pnl =
+mv-s.cost;
+
+const ret =
+s.cost
+?
+pnl/s.cost*100
+:
+0;
+
+
+const tr =
+document.createElement('tr');
+
+
+tr.innerHTML =
+
+`<td>
+<b>${esc(sym)}</b>
+</td>
+
+<td>${s.qty}</td>
+
+<td>${money(avg)}</td>
+
+<td>${money(s.cost)}</td>
+
+<td>
+
+<input
+style="width:110px"
+type="number"
+step="0.01"
+value="${p||''}"
+placeholder="price"
+data-price="${esc(sym)}">
+
+</td>
+
+<td>${money(mv)}</td>
+
+<td class="${pnl>=0?'good':'bad'}">
+${money(pnl)}
+</td>
+
+<td>
+${ret.toFixed(2)}%
+</td>
+
+<td>
+
+<button
+class="secondary"
+onclick="savePrice('${esc(sym)}')">
+
+Save
+
+</button>
+
+</td>`;
+
+
+b.appendChild(tr);
+
+});
+
+
+b
+.querySelectorAll(
+'input[data-price]'
+)
+.forEach(i=>{
+
+i.onchange=()=>{
+
+state.prices[
+i.dataset.price
+]=n(i.value);
+
+localStorage.setItem(
+'nepsePricesV24',
+JSON.stringify(
+state.prices
+)
+);
+
+render();
+
+};
+
+});
+
+
+if(
+!b.children.length
+){
+
+b.innerHTML =
+'<tr><td colspan="9" class="empty">No current holdings.</td></tr>';
+
+}
+
+}
+
+
+/* =========================================================
+   SAVE PRICE
+========================================================= */
+
+function savePrice(sym){
+
+const i =
+document.querySelector(
+`input[data-price="${sym}"]`
+);
+
+state.prices[sym] =
+n(i.value);
+
+localStorage.setItem(
+'nepsePricesV24',
+JSON.stringify(
+state.prices
+)
+);
+
+render();
+
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function renderHistory(){
+
+const b =
+document.getElementById(
+'historyBody'
+);
+
+b.innerHTML='';
+
+
+/*
+   Recalculate sell results.
+*/
+
+const result =
+calculateLedger();
+
+const sellMap =
+{};
+
+result.sellResults
+.forEach(
+x=>
+sellMap[x.id]=x
+);
+
+
+[
+...state.trades
+]
+.sort(
+(a,b)=>
+b.date.localeCompare(a.date)
+)
+.forEach(t=>{
+
+const tr =
+document.createElement('tr');
+
+
+const gross =
+t.qty*t.price;
+
+const charges =
+t.brokerage+t.fee;
+
+
+if(t.side==='BUY'){
+
+tr.innerHTML =
+
+`<td>${t.date}</td>
+
+<td>
+<b>${esc(t.symbol)}</b>
+</td>
+
+<td>
+<span class="badge badge-buy">
+BUY
+</span>
+</td>
+
+<td>${t.qty}</td>
+
+<td>${money(t.price)}</td>
+
+<td>${money(gross)}</td>
+
+<td>${money(charges)}</td>
+
+<td>-</td>
+
+<td>-</td>
+
+<td>${esc(t.note)}</td>
+
+<td>
+
+<button
+class="danger"
+onclick="deleteTrade('${t.id}')">
+
+Delete
+
+</button>
+
+</td>`;
+
+}else{
+
+const x =
+sellMap[t.id];
+
+const cgt =
+x
+?
+x.cgt
+:
+0;
+
+const net =
+x
+?
+x.net
+:
+0;
+
+const days =
+x
+?
+x.holdingDays
+:
+0;
+
+const taxRate =
+x && x.cgt>0
+?
+(
+x.date >= '2026-07-17'
+?
+(days>365?7.5:10)
+:
+(days>365?5:7.5)
+)
+:
+0;
+
+
+tr.innerHTML =
+
+`<td>${t.date}</td>
+
+<td>
+<b>${esc(t.symbol)}</b>
+</td>
+
+<td>
+<span class="badge badge-sell">
+SELL
+</span>
+</td>
+
+<td>${t.qty}</td>
+
+<td>${money(t.price)}</td>
+
+<td>${money(gross)}</td>
+
+<td>${money(charges)}</td>
+
+<td>
+
+${cgt>0
+?
+`<span class="badge badge-tax">
+${money(cgt)}
+<br>
+${taxRate}%
+</span>`
+:
+'-'}
+
+</td>
+
+<td class="${net>=0?'good':'bad'}">
+
+<b>${money(net)}</b>
+
+${x && x.shortQty>0
+?
+`<br><small class="bad">
+⚠ ${x.shortQty} qty unmatched
+</small>`
+:
+''}
+
+</td>
+
+<td>${esc(t.note)}</td>
+
+<td>
+
+<button
+class="danger"
+onclick="deleteTrade('${t.id}')">
+
+Delete
+
+</button>
+
+</td>`;
+
+}
+
+
+b.appendChild(tr);
+
+});
+
+
+if(
+!b.children.length
+){
+
+b.innerHTML =
+'<tr><td colspan="11" class="empty">No trades yet.</td></tr>';
+
+}
+
+}
+
+
+/* =========================================================
+   JOURNAL SAVE
+========================================================= */
+
+document
+.getElementById('journalForm')
+.onsubmit =
+async e=>{
+
+e.preventDefault();
+
+if(!currentUser){
+
+showAuth();
+
+return;
+
+}
+
+
+const j={
+
+user_id:
+currentUser.id,
+
+journal_date:
+jdate.value,
+
+symbol:
+jsymbol.value
+.trim()
+.toUpperCase(),
+
+direction:
+jdirection.value,
+
+strategy:
+strategy.value.trim(),
+
+setup_reason:
+setup.value.trim(),
+
+entry:
+n(jentry.value),
+
+stop_loss:
+n(sl.value),
+
+target:
+n(target.value),
+
+lesson:
+lesson.value.trim()
+
+};
+
+
+const r =
+await sb
+.from('journal_entries')
+.insert(j);
+
+
+if(r.error){
+
+alert(
+'Journal save failed: ' +
+r.error.message
+);
+
+return;
+
+}
+
+
+await loadJournalCloud();
+
+render();
+
+e.target.reset();
+
+jdate.value =
+new Date()
+.toISOString()
+.slice(0,10);
+
+alert(
+'Journal saved to cloud.'
+);
+
+};
+
+
+/* =========================================================
+   JOURNAL
+========================================================= */
+
+function renderJournal(){
+
+const el =
+document.getElementById(
+'journalList'
+);
+
+el.innerHTML='';
+
+
+if(
+!state.journals.length
+){
+
+el.innerHTML =
+'<div class="empty">No journal entries yet.</div>';
+
+return;
+
+}
+
+
+state.journals
+.forEach(j=>{
+
+const d =
+document.createElement('div');
+
+d.className='card';
+
+d.style.margin =
+'10px 0';
+
+d.innerHTML =
+
+`<b>
+${j.date} •
+${esc(j.symbol)} •
+${j.direction}
+</b>
+
+<div class="label">
+${esc(j.strategy)}
+</div>
+
+<p>
+${esc(j.setup)}
+</p>
+
+<small>
+Entry: ${j.entry||'-'}
+|
+SL: ${j.sl||'-'}
+|
+Target: ${j.target||'-'}
+</small>
+
+<p>
+<b>Lesson:</b>
+${esc(j.lesson)}
+</p>
+
+<button
+class="danger"
+onclick="deleteJournal('${j.id}')">
+
+Delete
+
+</button>`;
+
+el.appendChild(d);
+
+});
+
+}
+
+
+/* =========================================================
+   DELETE JOURNAL
+========================================================= */
+
+async function deleteJournal(id){
+
+if(!currentUser)
+return;
+
+if(
+!confirm(
+'Delete this journal entry?'
+)
+)return;
+
+
+const r =
+await sb
+.from('journal_entries')
+.delete()
+.eq('id',id)
+.eq('user_id',currentUser.id);
+
+
+if(r.error){
+
+alert(
+'Journal delete failed: ' +
+r.error.message
+);
+
+return;
+
+}
+
+await loadJournalCloud();
+
+render();
+
+}
+
+
+/* =========================================================
+   EXPORT BACKUP
+========================================================= */
+
+function exportData(){
+
+const blob =
+new Blob(
+[
+JSON.stringify(
+{
+version:'2.4 Fixed',
+trades:state.trades,
+journals:state.journals,
+prices:state.prices
+},
+null,
+2
+)
+],
+{
+type:'application/json'
+}
+);
+
+const a =
+document.createElement('a');
+
+a.href =
+URL.createObjectURL(blob);
+
+a.download =
+'nepse-ledger-v2.4-backup.json';
+
+a.click();
+
+URL.revokeObjectURL(
+a.href
+);
+
+}
+
+
+/* =========================================================
+   DELETE ALL
+========================================================= */
+
+function clearAll(){
+
+alert(
+'V2.4 uses cloud trades. Please delete individual trades from Trade History. Journal entries can also be deleted individually.'
+);
+
+}
+
+
+/* =========================================================
+   AUTH DISPLAY
+========================================================= */
+
+function updateAuth(){
+
+const l =
+document.getElementById(
+'loginBtn'
+);
+
+const o =
+document.getElementById(
+'logoutBtn'
+);
+
+const e =
+document.getElementById(
+'userEmail'
+);
+
+if(!l)
+return;
+
+
+if(currentUser){
+
+l.style.display='none';
+
+o.style.display='inline-block';
+
+e.textContent =
+currentUser.email || '';
+
+}else{
+
+l.style.display='inline-block';
+
+o.style.display='none';
+
+e.textContent =
+'Not logged in';
+
+}
+
+}
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+async function init(){
+
+authUI();
+
+
+const r =
+await sb.auth.getSession();
+
+currentUser =
+r.data.session?.user || null;
+
+
+updateAuth();
+
+await loadTrades();
+
+await loadJournalCloud();
+
+
+sb.auth.onAuthStateChange(
+async(_,session)=>{
+
+currentUser =
+session?.user || null;
+
+updateAuth();
+
+await loadTrades();
+
+await loadJournalCloud();
+
+render();
+
+});
+
+render();
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+init();
+
+date.value =
+new Date()
+.toISOString()
+.slice(0,10);
+
+jdate.value =
+new Date()
+.toISOString()
+.slice(0,10);
 
 updateFeePreview();
 
